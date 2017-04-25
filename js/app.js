@@ -3,6 +3,8 @@ const searchForm = document.querySelector('.search-form');
 const searchInput = document.getElementById('search');
 
 
+const testDiv = document.querySelector('.test');
+
 
 /*************** Creating the html element to display ***************/
 
@@ -20,10 +22,14 @@ function makeAJAXRequest(searchingText) {
         let albumsArray = responseText.albums.items;
 
         for (let i = 0; i < albumsArray.length; i++) {
+          // console.log(albumsArray[i].name);
+          let tag = document.createElement('p');
+          tag.innerHTML = albumsArray[i].name;
+          testDiv.appendChild(tag);
 
         }
 
-        console.log(albumsArray);
+        // console.log(albumsArray);
       } else {
         console.log('An error occured, sorry :/');
       } // End: xhr.status
