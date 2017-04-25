@@ -20,14 +20,16 @@ function makeAJAXRequest(searchingText) {
       if (xhr.status === 200) {
         let responseText = JSON.parse(xhr.responseText);
         let albumsArray = responseText.albums.items;
-
+        let albumHTML = '<ul>';
         for (let i = 0; i < albumsArray.length; i++) {
-          // console.log(albumsArray[i].name);
-          let tag = document.createElement('p');
-          tag.innerHTML = albumsArray[i].name;
-          testDiv.appendChild(tag);
-
+          albumHTML += '<li>';
+          albumHTML += albumsArray[i].name;
+          albumHTML += '/<li>';
         }
+        albumHTML += '</ul>';
+
+        testDiv.innerHTML = albumHTML;
+
 
         // console.log(albumsArray);
       } else {
