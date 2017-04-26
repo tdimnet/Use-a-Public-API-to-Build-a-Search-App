@@ -2,10 +2,7 @@
 const searchForm = document.querySelector('.search-form');
 const searchInput = document.getElementById('search');
 
-const albumsDiv = document.getElementById('albums');
-
-const testDiv = document.querySelector('.test');
-
+const mainContent = document.getElementById('main-content');
 
 /*************** Creating the html element to display ***************/
 
@@ -29,7 +26,7 @@ function makeAJAXRequest(searchingText) {
       if (xhr.status === 200) {
         let responseText = JSON.parse(xhr.responseText);
         let albumsArray = responseText.albums.items;
-        let albumHTML;
+        let albumHTML = '<ul id="albums" class="album-list">';
         for (let i = 0; i < albumsArray.length; i++) {
           albumHTML += '<li>';
               albumHTML += '<div class="album-wrap">';
@@ -42,10 +39,10 @@ function makeAJAXRequest(searchingText) {
             albumHTML += '</span>';
           albumHTML += '</li>';
         }
-        // albumHTML += '</ul>';
+        albumHTML += '</ul>';
 
         // Add the end, append the albumHTML to the test div
-        albumsDiv.innerHTML = albumHTML;
+        mainContent.innerHTML = albumHTML;
       } else {
         console.log('An error occured, sorry :/');
       } // End: xhr.status
