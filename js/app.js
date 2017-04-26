@@ -9,16 +9,20 @@ const mainContent = document.getElementById('main-content');
 
 
 /*************** The AJAX function ***************/
+const noAlbumFound = (searchingText) => {
+  let responseHTML = "<li class='no-albums desc'>";
+  responseHTML += "<i class='material-icons icon-help'>help_outline</i>No albums found that match: ";
+  responseHTML += searchingText;
+  responseHTML += '</li>';
+  return responseHTML;
+};
+
+// <li class='no-albums desc'>
+//   <i class='material-icons icon-help'>help_outline</i>No albums found that match: [search form value].
+// </li>
+
 function makeAJAXRequest(searchingText) {
   let xhr = new XMLHttpRequest();
-
-  // <li>
-  //   <div class="album-wrap">
-  //     <img class="album-art" src="https://i.scdn.co/image/23837f31d4791981db85588e57a86cf2ce5b88e3">
-  //   </div>
-  //   <span class="album-title">Luck of the Draw</span>
-  //   <span class="album-artist">Bonnie Raitt</span>
-  // </li>
 
   xhr.onreadystatechange = () => {
     if(xhr.readyState === 4) {
@@ -26,23 +30,31 @@ function makeAJAXRequest(searchingText) {
       if (xhr.status === 200) {
         let responseText = JSON.parse(xhr.responseText);
         let albumsArray = responseText.albums.items;
-        let albumHTML = '<ul id="albums" class="album-list">';
-        for (let i = 0; i < albumsArray.length; i++) {
-          albumHTML += '<li>';
-              albumHTML += '<div class="album-wrap">';
-                albumHTML += '<img class="album-art"';
-                  albumHTML += 'src="' + albumsArray[i].images[1].url + '"';
-                albumHTML += '>';
-              albumHTML += '</div>';
-            albumHTML += '<span class="album-title">';
-              albumHTML += albumsArray[i].name;
-            albumHTML += '</span>';
-          albumHTML += '</li>';
-        }
-        albumHTML += '</ul>';
+        if (albumsArray.length === 0) {
+          let responseHTML = noAlbumFound(searchingText);
+          mainContent.innerHTML = responseHTML;
+        } else {
+          let albumHTML = '<ul id="albums" class="album-list">';
+          for (let i = 0; i < albumsArray.length; i++) {
+            albumHTML += '<li>';
+                albumHTML += '<div class="album-wrap">';
+                  albumHTML += '<img class="album-art"';
+                    albumHTML += 'src="' + albumsArray[i].images[1].url + '"';
+                  albumHTML += '>';
+                albumHTML += '</div>';
+              albumHTML += '<span class="album-title">';
+                albumHTML += albumsArray[i].name;
+              albumHTML += '</span>';
+            albumHTML += '</li>';
+          }
+          albumHTML += '</ul>';
 
-        // Add the end, append the albumHTML to the test div
-        mainContent.innerHTML = albumHTML;
+          // Add the end, append the albumHTML to the test div
+          mainContent.innerHTML = albumHTML;
+        }
+
+
+
       } else {
         console.log('An error occured, sorry :/');
       } // End: xhr.status
@@ -65,7 +77,7 @@ searchForm.addEventListener('submit', (event) => {
     // Prevent the default behavior of the browser and start searching
     event.preventDefault();
     let searchingValue = searchInput.value;
-    console.log(searchingValue);
+
 
     makeAJAXRequest(searchingValue);
 });
