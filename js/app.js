@@ -32,6 +32,9 @@ const displayResults = (albums) => {
       albumHTML += '<span class="album-title">';
         albumHTML += albums[i].name;
       albumHTML += '</span>';
+      albumHTML += '<span class="album-artist">';
+        albumHTML += albums[i].artists[0].name;
+      albumHTML += '</span>';
     albumHTML += '</li>';
   }
   albumHTML += '</ul>';
