@@ -13,7 +13,7 @@ const noAlbumFound = (text) => {
   responseHTML += text;
   responseHTML += '</li>';
   return responseHTML;
-};
+}; // End: noAlbumFound
 
 // If albums have been returned, display them
 const displayResults = (albums) => {
@@ -35,21 +35,43 @@ const displayResults = (albums) => {
       albumHTML += '<span class="album-artist">';
         albumHTML += albums[i].artists[0].name;
       albumHTML += '</span>';
+      albumHTML += '<a class="album-info"';
+      albumHTML += 'onclick="showTheAlbum(event)"';
+      albumHTML += 'href="' + albums[i].href + '"';
+      albumHTML += '>';
+      albumHTML += 'More info on the album';
+      albumHTML += '</a>';
     albumHTML += '</li>';
   }
   albumHTML += '</ul>';
   return albumHTML;
-};
+}; // End display results
+
+const showTheAlbum = (event) => {
+  event.preventDefault();
+  let href = event.target.getAttribute('href');
+  getOneAlbumRequest(href);
+}; // End: showTheAlbum
+
+// The Ajax request when one album is clicked
+const getOneAlbumRequest = (albumHref) => {
+  let req = new XMLHttpRequest();
+
+  req.open(
+    'GET',
+    albumHref,
+    true
+  );
+  req.send(null);
+}; // End: getOneAlbumRequest
 
 // The Ajax request which calls: the two functions above
-const makeAJAXRequest = (searchingText) => {
+const getAllAlbumsRequest = (searchingText) => {
   let xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = () => {
     if(xhr.readyState === 4) {
-
       if (xhr.status === 200) {
-
         let albumSearched = searchingText;
         let responseText = JSON.parse(xhr.responseText);
         let albumsArray = responseText.albums.items;
@@ -83,5 +105,5 @@ searchForm.addEventListener('submit', (event) => {
     // Prevent the default behavior of the browser and start searching
     event.preventDefault();
     let searchingValue = searchInput.value;
-    makeAJAXRequest(searchingValue);
+    getAllAlbumsRequest(searchingValue);
 });
