@@ -21,9 +21,13 @@ const displayResults = (albums) => {
   for (let i = 0; i < albums.length; i++) {
     albumHTML += '<li>';
         albumHTML += '<div class="album-wrap">';
-          albumHTML += '<img class="album-art"';
-            albumHTML += 'src="' + albums[i].images[1].url + '"';
+          albumHTML += '<a ';
+            albumHTML += 'href="' + albums[i].external_urls.spotify +'" target="_blank"';
           albumHTML += '>';
+            albumHTML += '<img class="album-art"';
+              albumHTML += 'src="' + albums[i].images[1].url + '"';
+            albumHTML += '>';
+          albumHTML += '</a>';
         albumHTML += '</div>';
       albumHTML += '<span class="album-title">';
         albumHTML += albums[i].name;
