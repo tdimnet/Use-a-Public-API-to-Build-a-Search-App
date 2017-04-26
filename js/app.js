@@ -1,62 +1,62 @@
 /*************** Targeting the elements already present inside the page ***************/
 const searchForm = document.querySelector('.search-form');
 const searchInput = document.getElementById('search');
-
 const mainContent = document.getElementById('main-content');
-
-/*************** Creating the html element to display ***************/
 
 
 
 /*************** The AJAX function ***************/
-const noAlbumFound = (searchingText) => {
+// If there is no album to show
+const noAlbumFound = (text) => {
   let responseHTML = "<li class='no-albums desc'>";
   responseHTML += "<i class='material-icons icon-help'>help_outline</i>No albums found that match: ";
-  responseHTML += searchingText;
+  responseHTML += text;
   responseHTML += '</li>';
   return responseHTML;
 };
 
-// <li class='no-albums desc'>
-//   <i class='material-icons icon-help'>help_outline</i>No albums found that match: [search form value].
-// </li>
+// If albums have been returned, display them
+const displayResults = (albums) => {
+  let albumHTML = '<ul id="albums" class="album-list">';
+  for (let i = 0; i < albums.length; i++) {
+    albumHTML += '<li>';
+        albumHTML += '<div class="album-wrap">';
+          albumHTML += '<img class="album-art"';
+            albumHTML += 'src="' + albums[i].images[1].url + '"';
+          albumHTML += '>';
+        albumHTML += '</div>';
+      albumHTML += '<span class="album-title">';
+        albumHTML += albums[i].name;
+      albumHTML += '</span>';
+    albumHTML += '</li>';
+  }
+  albumHTML += '</ul>';
+  return albumHTML;
+};
 
-function makeAJAXRequest(searchingText) {
+// The Ajax request which calls: the two functions above
+const makeAJAXRequest = (searchingText) => {
   let xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = () => {
     if(xhr.readyState === 4) {
-      console.log('connected');
+
       if (xhr.status === 200) {
+
+        let albumSearched = searchingText;
         let responseText = JSON.parse(xhr.responseText);
         let albumsArray = responseText.albums.items;
+
         if (albumsArray.length === 0) {
-          let responseHTML = noAlbumFound(searchingText);
+          let responseHTML = noAlbumFound(albumSearched);
           mainContent.innerHTML = responseHTML;
         } else {
-          let albumHTML = '<ul id="albums" class="album-list">';
-          for (let i = 0; i < albumsArray.length; i++) {
-            albumHTML += '<li>';
-                albumHTML += '<div class="album-wrap">';
-                  albumHTML += '<img class="album-art"';
-                    albumHTML += 'src="' + albumsArray[i].images[1].url + '"';
-                  albumHTML += '>';
-                albumHTML += '</div>';
-              albumHTML += '<span class="album-title">';
-                albumHTML += albumsArray[i].name;
-              albumHTML += '</span>';
-            albumHTML += '</li>';
-          }
-          albumHTML += '</ul>';
-
-          // Add the end, append the albumHTML to the test div
-          mainContent.innerHTML = albumHTML;
+          let responseHTML = displayResults(albumsArray)
+          mainContent.innerHTML = responseHTML;
         }
 
-
-
       } else {
-        console.log('An error occured, sorry :/');
+        alert('Sorry, an error occurs with the server');
       } // End: xhr.status
     } // End: xhr.readyState
   } // End: onreadystatechange
@@ -71,13 +71,10 @@ function makeAJAXRequest(searchingText) {
 
 
 
-
 /*************** Adding the event handlers ***************/
 searchForm.addEventListener('submit', (event) => {
     // Prevent the default behavior of the browser and start searching
     event.preventDefault();
     let searchingValue = searchInput.value;
-
-
     makeAJAXRequest(searchingValue);
 });
