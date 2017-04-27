@@ -55,14 +55,22 @@ const showTheAlbum = (event) => {
 
 // The Ajax request when one album is clicked
 const getOneAlbumRequest = (albumHref) => {
-  let req = new XMLHttpRequest();
-
-  req.open(
+  let xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = () => {
+    if ((xhr.readyState === 4) && xhr.status === 200) {
+      // Il y aura peut être des choses à mofifier ici
+      let albumDetail = albumHref;
+      let response = JSON.parse(xhr.responseText);
+    } else {
+      alert('Sorry but something went wrong..');
+    }
+  }
+  xhr.open(
     'GET',
     albumHref,
     true
   );
-  req.send(null);
+  xhr.send(null);
 }; // End: getOneAlbumRequest
 
 // The Ajax request which calls: the two functions above
@@ -72,6 +80,7 @@ const getAllAlbumsRequest = (searchingText) => {
   xhr.onreadystatechange = () => {
     if(xhr.readyState === 4) {
       if (xhr.status === 200) {
+        // Penser à virer l'albumSearched et à voir si rien ne pête
         let albumSearched = searchingText;
         let responseText = JSON.parse(xhr.responseText);
         let albumsArray = responseText.albums.items;
