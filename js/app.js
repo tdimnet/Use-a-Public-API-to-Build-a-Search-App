@@ -57,13 +57,7 @@ const showTheAlbum = (event) => {
 const getOneAlbumRequest = (albumHref) => {
   let xhr = new XMLHttpRequest();
   xhr.onreadystatechange = () => {
-    if ((xhr.readyState === 4) && xhr.status === 200) {
-      // Il y aura peut être des choses à mofifier ici
-      let albumDetail = albumHref;
-      let response = JSON.parse(xhr.responseText);
-    } else {
-      alert('Sorry but something went wrong..');
-    }
+    console.log(xhr.responseText);
   }
   xhr.open(
     'GET',
@@ -80,13 +74,11 @@ const getAllAlbumsRequest = (searchingText) => {
   xhr.onreadystatechange = () => {
     if(xhr.readyState === 4) {
       if (xhr.status === 200) {
-        // Penser à virer l'albumSearched et à voir si rien ne pête
-        let albumSearched = searchingText;
         let responseText = JSON.parse(xhr.responseText);
         let albumsArray = responseText.albums.items;
 
         if (albumsArray.length === 0) {
-          let responseHTML = noAlbumFound(albumSearched);
+          let responseHTML = noAlbumFound(searchingText);
           mainContent.innerHTML = responseHTML;
         } else {
           let responseHTML = displayResults(albumsArray)
