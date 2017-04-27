@@ -55,16 +55,25 @@ const showTheAlbum = (event) => {
 
 // The Ajax request when one album is clicked
 const getOneAlbumRequest = (albumHref) => {
-  let xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = () => {
-    console.log(xhr.responseText);
-  }
-  xhr.open(
+
+  let req = new XMLHttpRequest();
+  req.open(
     'GET',
     albumHref,
     true
   );
-  xhr.send(null);
+
+  req.send(null);
+
+  req.onreadystatechange = () => {
+    if (req.readyState === 4) {
+      if (req.status === 200) {
+        let albumSelected = JSON.parse(req.responseText);
+        console.log(albumSelected);
+      }
+    }
+  }
+
 }; // End: getOneAlbumRequest
 
 // The Ajax request which calls: the two functions above
