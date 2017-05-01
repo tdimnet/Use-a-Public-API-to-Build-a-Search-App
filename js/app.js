@@ -54,7 +54,18 @@ const displayResults = (albums) => {
   }
   albumHTML += '</ul>';
   return albumHTML;
-}; // End display results
+}; // End displayResults
+
+const displayTheAlbum = (album) => {
+  console.log('Title: ' + album.release_date);
+  console.log('Album name: ' + album.name);
+  for (let i = 0; i < album.artists.length; i++) {
+    console.log('Artist(s): ' + album.artists[i].name);
+  }
+  for (let i = 0; i < album.tracks.items.length; i++) {
+    console.log('Track(s) name: ' + album.tracks.items[i].name);
+  }
+}; // End displayTheAlbum
 
 const showTheAlbum = (event) => {
   event.preventDefault();
@@ -79,8 +90,7 @@ const getOneAlbumRequest = (albumHref) => {
     if (req.readyState === 4) {
       if (req.status === 200) {
         let albumSelected = JSON.parse(req.responseText);
-        console.log('Title: ' + albumSelected.release_date);
-        console.log('Album name: ' + albumSelected.name);
+        displayTheAlbum(albumSelected);
       }
     }
   }
