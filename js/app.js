@@ -2,6 +2,7 @@
 const searchForm  = document.querySelector('.search-form');
 const searchInput = document.getElementById('search');
 const mainContent = document.getElementById('main-content');
+const overlay     = document.getElementById('overlay');
 
 
 
@@ -58,7 +59,8 @@ const displayResults = (albums) => {
 const showTheAlbum = (event) => {
   event.preventDefault();
   let href = event.target.getAttribute('href');
-  getOneAlbumRequest(href);
+  const album = getOneAlbumRequest(href);
+  overlay.style.display = 'block';
 }; // End: showTheAlbum
 
 // The Ajax request when one album is clicked
@@ -125,4 +127,9 @@ searchForm.addEventListener('submit', (event) => {
     event.preventDefault();
     let searchingValue = searchInput.value;
     getAllAlbumsRequest(searchingValue);
+});
+
+
+overlay.addEventListener('click', () => {
+  overlay.style.display = 'none';
 });
