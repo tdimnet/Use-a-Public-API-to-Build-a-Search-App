@@ -1,7 +1,15 @@
 /*************** Targeting the elements already present inside the page ***************/
-const searchForm = document.querySelector('.search-form');
+const searchForm  = document.querySelector('.search-form');
 const searchInput = document.getElementById('search');
 const mainContent = document.getElementById('main-content');
+
+
+
+/*************** Adding the overlay to the web page ***************/
+
+
+
+// Then append the overlay to the body
 
 
 
@@ -69,7 +77,8 @@ const getOneAlbumRequest = (albumHref) => {
     if (req.readyState === 4) {
       if (req.status === 200) {
         let albumSelected = JSON.parse(req.responseText);
-        console.log(albumSelected);
+        console.log('Title: ' + albumSelected.release_date);
+        console.log('Album name: ' + albumSelected.name);
       }
     }
   }
