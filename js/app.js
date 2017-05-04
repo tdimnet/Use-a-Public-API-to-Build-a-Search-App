@@ -59,10 +59,11 @@ const displayResults = (albums) => {
 const displayTheAlbum = (album) => {
   let html = '<div id="album">';
   html += '<h2>';
-  html += 'Title:' + album.release_date;
+  html += 'Album name: ' + album.name;
   html += '</h2>';
-  console.log('Title: ' + album.release_date);
-  console.log('Album name: ' + album.name);
+  html += '<small>';
+  html += 'Released year: ' + album.release_date.substring(0, 4);
+  html += '</small>';
   html += '</div>';
 
   overlay.innerHTML = html;
