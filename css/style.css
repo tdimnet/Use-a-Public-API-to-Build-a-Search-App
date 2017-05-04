@@ -294,3 +294,9 @@ button {
   padding-top: 50px;
   transition: .7s;
 }
+
+#overlay #album {
+    width: 60%;
+    margin: 40px auto 0;
+    color: #fff;
+}

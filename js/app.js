@@ -57,14 +57,23 @@ const displayResults = (albums) => {
 }; // End displayResults
 
 const displayTheAlbum = (album) => {
+  let html = '<div id="album">';
+  html += '<h2>';
+  html += 'Title:' + album.release_date;
+  html += '</h2>';
   console.log('Title: ' + album.release_date);
   console.log('Album name: ' + album.name);
+  html += '</div>';
+
+  overlay.innerHTML = html;
+  /*
   for (let i = 0; i < album.artists.length; i++) {
     console.log('Artist(s): ' + album.artists[i].name);
   }
   for (let i = 0; i < album.tracks.items.length; i++) {
     console.log('Track(s) name: ' + album.tracks.items[i].name);
   }
+  */
 }; // End displayTheAlbum
 
 const showTheAlbum = (event) => {
