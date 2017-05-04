@@ -141,7 +141,9 @@ button {
 .album-wrap {
   background-color: #fff;
   margin-bottom: .8em;
+  /* For now hide this ressource
   position: relative;
+  */
 }
 
 .-placeholder {
