@@ -57,24 +57,47 @@ const displayResults = (albums) => {
 }; // End displayResults
 
 const displayTheAlbum = (album) => {
-  let html = '<div id="album">';
+  var html = '<div id="album">';
   html += '<h2>';
   html += 'Album name: ' + album.name;
   html += '</h2>';
   html += '<small>';
   html += 'Released year: ' + album.release_date.substring(0, 4);
   html += '</small>';
+
+  html += '<ol>';
+  html += '<h3>Artist(s)</h3>';
+  // Maybe do a function instead
+  for (let i = 0; i < album.artists.length; i++) {
+      html += '<li>';
+      html += album.artists[i].name;
+      html += '</li>';
+  }
+  html += '</ol>';
+  html += '<ol>';
+  html += '<h3>Track(s)</h3>';
+  // Here to => reuse the function specified earlier
+  for (let i = 0; i < album.tracks.items.length; i++) {
+      html += '<li>';
+      html += album.tracks.items[i].name;
+      html += '</li>';
+  }
+  html += '</ol>';
   html += '</div>';
+
+  console.log(html);
 
   overlay.innerHTML = html;
   /*
   for (let i = 0; i < album.artists.length; i++) {
     console.log('Artist(s): ' + album.artists[i].name);
   }
+
   for (let i = 0; i < album.tracks.items.length; i++) {
     console.log('Track(s) name: ' + album.tracks.items[i].name);
   }
   */
+
 }; // End displayTheAlbum
 
 const showTheAlbum = (event) => {

@@ -307,3 +307,9 @@ button {
 #overlay #album {
     text-align: center;
 }
+
+#overlay #album ol {
+    margin-top: 40px;
+    text-align: left;
+    float: left;
+}
